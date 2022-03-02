@@ -1,10 +1,11 @@
 <script lang='ts' >
-  import { SessionRepo } from "../Repository/Remote/session"
+  import type { SessionRepo } from "../../Repository/Remote/session"
 
-  const repo = new SessionRepo("http://localhost:3001")
+  export let repository: SessionRepo
+
 
   const spotifyLogin = async () => {
-    const res = await repo.login()
+    const res = await repository.login()
     console.log(res)
     window.location.href = res.redirect
   }

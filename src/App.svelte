@@ -3,7 +3,7 @@
   
   import Header from './components/Header.svelte'
   import WhishLists from './Views/WhishLists.svelte'
-  import Landing from './Views/Landing.svelte'
+  import Landing from './Views/Public/Main.svelte'
 
   const session = null
 </script>
