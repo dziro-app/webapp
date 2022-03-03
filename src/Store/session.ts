@@ -1,14 +1,14 @@
 import { writable } from 'svelte/store';
-import type { Token, User } from '../Entities/Session'
+import type { Token, User } from '../dtos/Session'
 
 type sessionState = {
-  token: Token | null,
+  token: string | null,
   user: User | null
 }
 
 const defaultState:sessionState = {
-  user: null,
-  token: null
+  token: null,
+  user: null
 }
 
 function createSession() {
@@ -16,7 +16,7 @@ function createSession() {
 
 	return {
 		subscribe,
-    setToken: (token: Token) => update( val => {
+    setToken: (token: string) => update( val => {
       const newToken = Object.assign({}, val)
       newToken.token = token
       return newToken

@@ -1,6 +1,8 @@
 <script lang="ts" >
-  import { onMount } from "svelte";
+  import { onMount } from "svelte"
+  import { navigate } from "svelte-navigator"
   import { useParams, useLocation } from "svelte-navigator"
+
   import type { SessionRepo } from "../../Repository/Remote/session"
 
   import { sessionStore } from "../../Store/session"
@@ -11,15 +13,22 @@
   const location = useLocation()
 
   const askToken = async() => {    
-    const via = $params.via
-    const query = new URLSearchParams($location.search);
-    const code = query.get("code")
 
-    const token = await repository.getToken(via, code)
+    try {
+      const via = $params.via
+      const query = new URLSearchParams($location.search);
+      const code = query.get("code")
+      
+      const res = await repository.getToken(via, code)
+      
+      sessionStore.setToken(res.token)
+      sessionStore.setUser(res.user)
+      
+      navigate("/", {replace: true})
 
-    sessionStore.setToken(token)
-    console.log(token)
-    // sessionStore.setUser(userData)
+    } catch(e) {
+      console.log(e)
+    }
   }
 
   onMount(() => {

@@ -1,11 +1,15 @@
 <script lang="ts">
-  import type { User } from './Entities/Session';
+  import { sessionStore } from "./Store/session"
   
   import Header from './components/Header.svelte'
   import WhishLists from './Views/WhishLists.svelte'
   import Landing from './Views/Public/Main.svelte'
 
-  const session = null
+  let session = null
+
+  $: {
+    session = $sessionStore.user
+  }
 </script>
 
 <main>

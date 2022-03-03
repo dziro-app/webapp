@@ -3,11 +3,13 @@
 
   export let repository: SessionRepo
 
-
   const spotifyLogin = async () => {
-    const res = await repository.login()
-    console.log(res)
-    window.location.href = res.redirect
+    try {
+      const res = await repository.login()
+      window.location.href = res.redirect
+    } catch(e) {
+      console.log(e)
+    }
   }
 </script>
 

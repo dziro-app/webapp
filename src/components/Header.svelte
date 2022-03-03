@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { User } from 'src/Entities/Session';
+  import type { User } from 'dtos/Session';
 
   export let session: User | null
 

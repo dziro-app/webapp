@@ -1,5 +1,5 @@
 import type { OauthRedirect } from "dtos/Session";
-import type { Token, User } from "Entities/Session"
+import type { Token } from "dtos/Session"
 import type {Session} from "../Base/session"
 import { Fetch } from "./fetch";
 

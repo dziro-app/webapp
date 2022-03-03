@@ -1,11 +1,11 @@
 <script lang='ts' >
-  import type { User } from "../Entities/Session"
+  import type { User } from "dtos/Session"
 
   export let info: User;
 </script>
 
 <div class="Menu">
-  <img src={info.profile} alt="profile_image">
+  <img src={info.profilePicture} alt="profile_image">
   <span> {info.username} </span>
 </div>
 
