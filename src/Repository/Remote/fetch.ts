@@ -1,27 +1,36 @@
 export class Fetch {
   base: string
+  jwtToken: string | null
 
-  constructor(url: string) {
+  constructor(url: string, jwtToken?: string) {
     this.base = url
+    if (jwtToken) {
+      this.jwtToken = jwtToken
+    }
+  }
+
+  buildJsonHeader(contentType: string =  'application/json') {
+    const headers = {
+      'Content-Type': contentType,
+    }
+    if (this.jwtToken) {
+      headers['Authorization'] = `Bearer ${this.jwtToken}`
+    }
+    return headers
   }
 
   get(url: string, options: Object={}) {
     return fetch(`${this.base}${url}`, {
-      headers: {
-        'Content-Type': 'application/json'
-      },
+      headers: this.buildJsonHeader(),
       ...options
-    })
-      .then(res => res.json())
+    }).then(res => res.json())
   }
 
   post(url: string, payload: Object) {
     return fetch(`${this.base}${url}`, {
       method: 'post',
       body: JSON.stringify(payload),
-      headers: {
-        'Content-Type': 'application/json'
-      }
+      headers: this.buildJsonHeader(),
     }).then(res => res.json())
   }
 }

@@ -2,8 +2,9 @@
   import { sessionStore } from "./Store/session"
   
   import Header from './components/Header.svelte'
-  import WhishLists from './Views/WhishLists.svelte'
   import Landing from './Views/Public/Main.svelte'
+  import Private from "./Views/Private/Main.svelte"
+
 
   let session = null
 
@@ -17,7 +18,7 @@
   {#if session === null}
     <Landing />
   {:else}
-    <WhishLists />
+    <Private />
   {/if}
 </main>
 

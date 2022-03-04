@@ -1,5 +1,5 @@
 <script lang="ts" >
-  import { Router, Link, Route } from "svelte-navigator";
+  import { Router, Route } from "svelte-navigator";
   import { SessionRepo } from "../../Repository/Remote/session"
 
   import Login from "./Login.svelte"
