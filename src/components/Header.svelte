@@ -22,9 +22,12 @@
 <style lang="scss" >
   @import '../Styles/_colors.scss';
   header {
+    align-items: center;
     background: $black;
+    box-sizing: border-box;
     display: flex;
     justify-content: space-between;
-    padding: 5px 10px;
+    padding: 0px 10px;
+    height: 80px;
   }
 </style>

@@ -1,18 +1,27 @@
+<script>
+  import LogoSvg from "../assets/logo.svg"
+</script>
+
 <div class="Logo">
-  DZIRO
+  <img src={LogoSvg} alt="logo" />
+  <div class="name">
+    DZIRO
+  </div>
 </div>
 
 <style lang='scss' >
   @import '../Styles/_colors.scss';
+  @import '../Styles/_texts.scss';
   .Logo {
-    border: 2px solid $white;
-    color: $white;
-    height: 60px;
-    font-size: 36px;
-    width: fit-content;
-    display: flex;
-    justify-content: center;
+    @include title;
     align-items: center;
-    padding: 0 5px;
+    border: 2px solid $white;
+    display: flex;
+    color: $white;
+    padding: 10px 5px;
+
+    .name {
+      padding-left: 0.3em;
+    }
   }
 </style>
