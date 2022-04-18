@@ -2,13 +2,15 @@
   import Header from "dziro-components/src/Components/Header.svelte"
   import WishList from  "../../Views/Private/WhishLists.svelte"
   import {CollectionRepo} from "../../Repository/LocalStorage/collection"
-  
-  const repo = new CollectionRepo()
+  import {ItemRepo} from "../../Repository/LocalStorage/item"
+
+  const cRepo = new CollectionRepo()
+  const iRepo = new ItemRepo()
 </script>
 
 <main>
   <Header />
-  <WishList repository={repo} />
+  <WishList itemRepo={iRepo} collectionRepo={cRepo} />
 </main>
 
 <style>

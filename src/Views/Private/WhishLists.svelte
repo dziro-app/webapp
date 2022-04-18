@@ -3,19 +3,23 @@
 
   import type { CreateCollectionDto } from "dtos/Collection"
   import type { CreateItemDto } from "dtos/Item"
+
   import type { Collection as CollectionRepo } from "Repository/Base/collection"
+  import type { Item as ItemRepo } from "Repository/Base/item"
 
   import Button from "dziro-components/src/Components/Button.svelte"
   import CollectionDetail from "dziro-components/src/Components/CollectionDetail.svelte"
   import CollectionButton from "dziro-components/src/Components/CollectionButton.svelte"
   import CollectionAddItem from "dziro-components/src/Components/CollectionAddItem.svelte"
+  import CollectionItem from "dziro-components/src/Components/CollectionItem.svelte"
 
   import ItemModal from "../../modals/ItemExtended.svelte"
   import CollectionModal from "../../modals/Collection.svelte"
 
   import { collectionStore } from "../../Store/Collection"
 
-  export let repository: CollectionRepo
+  export let collectionRepo: CollectionRepo
+  export let itemRepo: ItemRepo
   export let isUserFree: boolean = true
 
   let selectedColection: number | null = null
@@ -26,7 +30,7 @@
   let showAddItemModal = false
 
   const load = async () => {
-    $collectionStore = await repository.list()
+    $collectionStore = await collectionRepo.list()
     if ( $collectionStore.length > 0) {
       selectedColection = 0
     }
@@ -34,7 +38,7 @@
 
   const createCollection = async (data: CreateCollectionDto) => {
     try {
-      const created = await repository.create(data)
+      const created = await collectionRepo.create(data)
       collectionStore.addCollection(created)
       showCreateModal = false
     }
@@ -46,7 +50,7 @@
   const editCollection = async(data: CreateCollectionDto) => {
     try {
       let current = $collectionStore[selectedColection]
-      const updated = await repository.update(current.id, data)
+      const updated = await collectionRepo.update(current.id, data)
       collectionStore.updateCollection(selectedColection, updated)
       showEditModal = false
     } catch (e) {
@@ -58,7 +62,7 @@
     const current = $collectionStore[selectedColection]
 
     try {
-      await repository.delete(current.id)
+      await collectionRepo.delete(current.id)
       collectionStore.deleteCollection(current.id)
       if ( $collectionStore.length > 0) {
         selectedColection = 0
@@ -68,8 +72,17 @@
     }
   }
 
-  const createItem = (data: CreateItemDto) => {
-    console.log(data)
+  const createItem = async (data: CreateItemDto) => {
+    let current = $collectionStore[selectedColection]
+    
+    try {
+      const newItem = await itemRepo.create(current.id, data)
+      collectionStore.addItem(current.id, newItem)
+      showAddItemModal = false  
+    }
+    catch (e) {
+      console.log(e)
+    }
   }
 
   const menuOptions = [{
@@ -138,7 +151,17 @@
       emoji={$collectionStore[selectedColection].emoji}
       options={menuOptions}
     >
-      <CollectionAddItem on:click={()=>{ showAddItemModal = true }}  />
+      <div class="itemList">
+        {#each $collectionStore[selectedColection].items as item}
+        <CollectionItem 
+        image={item.image}
+        name={item.title}
+        price={item.price}
+        website={item.website}
+        />
+        {/each}
+        <CollectionAddItem on:click={()=>{ showAddItemModal = true }}  />
+      </div>
     </CollectionDetail>
 
   {/if}
@@ -148,12 +171,12 @@
 <style lang='scss' >
   @import '../../../../components/src/Styles/_texts.scss';
   @import '../../../../components/src/Styles/_colors.scss';
+  @import '../../../../components/src/Styles/_sizing.scss';
 
   #WhishListsView {
     display: grid;
     grid-template-columns: 250px 1fr;
     height: calc(100vh - 80px);
-
     .collectionList {
       box-sizing: border-box;
       padding: 0 16px;
@@ -167,6 +190,11 @@
         grid-row-gap: 16px;
         margin: 16px 0;
       }
+    }
+
+    .itemList {
+      display: flex;
+      grid-gap: sizing(2);
     }
   }
 </style>

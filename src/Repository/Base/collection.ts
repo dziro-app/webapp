@@ -1,4 +1,4 @@
-import type {Collection as CollectionEntity} from "../../Entities/MongoCollection"
+import type {Collection as CollectionEntity} from "Entities/MongoCollection"
 import type { CreateCollectionDto, UpdateCollectionDto } from "dtos/Collection"
 
 export interface Collection {

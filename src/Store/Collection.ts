@@ -1,5 +1,6 @@
-import { writable } from 'svelte/store';
-import type { number } from 'yup';
+import { writable } from 'svelte/store'
+
+import type { Item } from "../Entities/Item"
 import type { Collection } from '../Entities/Collection'
 
 
@@ -29,7 +30,13 @@ function createCollection() {
       newCollection.splice(found, 1)
       return newCollection
     }),
-		reset: () => set(defaultState)
+		reset: () => set(defaultState),
+    addItem: (collectionId: string, item: Item) => update(collections => {
+      const newCollection = collections.slice(0)
+      const found = newCollection.findIndex(collection => (collection.id === collectionId))
+      newCollection[found].items.push(item)
+      return newCollection
+    })
 	};
 }
 
