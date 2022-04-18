@@ -1,6 +1,0 @@
-$base-sizing: 8px;
-$nav-height: 70px;
-
-@function sizing($scale) {
-  @return $scale * $base-sizing;
-} 

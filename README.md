@@ -3,6 +3,17 @@
 
 
 ---
+## Requisitos
+
+> Componentes de la biblioteca
+
+```bash
+$ npm link path_to_library 
+```
+
+> Tipografías
+
+---
 ## Scope
 
 La app está organizada para ofrecer dos experiencias:

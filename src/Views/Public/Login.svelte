@@ -1,6 +1,6 @@
 <script lang='ts' >
   import type { SessionRepo } from "../../Repository/Remote/session"
-  import Button from "../../components/Button.svelte"
+  import Button from "dziro-components/src/Components/Button.svelte"
 
   export let repository: SessionRepo
 
@@ -23,7 +23,7 @@
 </div>
 
 <style lang='scss' >
-  @import "../../Styles/_texts.scss";
+  @import "../../../../components/src/Styles/_texts.scss";
   .Landing {
     padding: 1em;
     h1 {

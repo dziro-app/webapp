@@ -1,7 +1,7 @@
 import type { Item } from "./Item"
 
 export type Collection = {
-  id: number
+  id: string
   name: string
   color: string
   emoji: string

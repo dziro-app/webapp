@@ -4,12 +4,11 @@
   // Repositories
   import { CollectionRepo } from "../../Repository/Remote/collection"
 
-  import WhishList from "./Collections/WhishLists.svelte"
+  import WhishList from "./WhishLists.svelte"
 
   let repo
 
   $:{
-    console.log($sessionStore.token)
     repo = new CollectionRepo("http://localhost:3001", $sessionStore.token)
   }
 

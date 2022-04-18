@@ -25,6 +25,8 @@
     "vite": "^2.8.0"
   },
   "dependencies": {
+    "@rollup/plugin-alias": "^3.1.9",
+    "@rollup/plugin-node-resolve": "^13.2.1",
     "@types/yup": "^0.29.13",
     "color": "^4.2.3",
     "yup": "^0.32.11"

@@ -8,12 +8,12 @@
   export let onSubmit: (data: CreateCollectionDto) => void
   export let show : boolean = false
 
-  import Button from "../components/Button.svelte"
-  import TextInput from "../components/inputs/Text.svelte"
-  import EmojiInput from "../components/inputs/Emoji.svelte"
-  import ColorInput from "../components/inputs/Color.svelte"
+  import Button from "dziro-components/src/Components/Button.svelte"
+  import TextInput from "dziro-components/src/Components/InputText.svelte"
+  import EmojiInput from "dziro-components/src/Components/InputEmoji.svelte"
+  import ColorInput from "dziro-components/src/Components/InputColor.svelte"
 
-  import BaseModal from "./Base.svelte"
+  import BaseModal from "dziro-components/src/Components/ModalBase.svelte"
 
   const schema = yup.object().shape({
     name: yup.string().required("El nombre no puede ser vacío"),
@@ -24,7 +24,7 @@
   let values: CreateCollectionDto = {
     name: "Ropa",
     emoji: "👕",
-    color: "#AC86FF"
+    color: "#D8D00C"
   }
 
   let errors = []
@@ -41,35 +41,29 @@
 </script>
 
 {#if show}
-  <BaseModal onClose={onClose} >
+  <BaseModal title={title} onClose={onClose} >
     <div class="NewCollection">
-      <div class="header">
-        <h3> {title} </h3>
-      </div>
-      <div class="content">
-        <p>Agrega la información de la colección</p>
-        {#each errors as error}
-          <div class="errorMessage" > {error} </div>
-        {/each}
-        <form on:submit|preventDefault={validateForm} >
-          <TextInput label="Nombre" name="name" bind:value={values.name} />
-          <EmojiInput label="Emoji" name="emoji" bind:value={values.emoji} />
-          <ColorInput label="Color" name="color" bind:value={values.color} />
-          <div class="buttonWrapper">
-            <Button type="submit" >
-              CREAR
-            </Button>  
-          </div>
-        </form>
-      </div>
+      <p>Agrega la información de la colección</p>
+      {#each errors as error}
+        <div class="errorMessage" > {error} </div>
+      {/each}
+      <form on:submit|preventDefault={validateForm} >
+        <TextInput label="Nombre" name="name" bind:value={values.name} />
+        <EmojiInput label="Emoji" name="emoji" bind:value={values.emoji} />
+        <ColorInput label="Color" name="color" bind:value={values.color} />
+        <div class="buttonWrapper">
+          <Button type="submit" >
+            CREAR
+          </Button>  
+        </div>
+      </form>
     </div>
   </BaseModal>
 {/if}
 
 <style lang='scss'>
-  @import "../Styles/_colors.scss";
-  @import "../Styles/_texts.scss";
-
+  @import "../../../components/src/Styles/_colors.scss";
+  @import "../../../components/src/Styles/_texts.scss";
 
   .errorMessage {
     background: $error;
@@ -77,40 +71,21 @@
     text-align: center;
     padding: 0.5em;
     margin: 1em 0;
+  }  
+  p {
+    @include subtitle;
+    text-align: center;
   }
+  form {
+    display: grid;
+    grid-row-gap: 28px;
+    margin: 0 auto;
+    width: 300px;
 
-  .header {
-    background: $black;
-    box-sizing: border-box;
-    padding: 16px 120px;
-    h3 {
-      border: 2px solid $white;
-      color: $white; 
-      @include title;
-      padding: 16px 100px;
-      margin: 0;
-    }
-
-  }
-  
-  .content {
-    background: $white;
-    padding: 1em;
-    
-    p {
-      @include subtitle;
+    .buttonWrapper {
+      margin: 8px 0;
       text-align: center;
     }
-    form {
-      display: grid;
-      grid-row-gap: 28px;
-      margin: 0 auto;
-      width: 300px;
-
-      .buttonWrapper {
-        margin: 8px 0;
-        text-align: center;
-      }
-    }
   }
+  
 </style>

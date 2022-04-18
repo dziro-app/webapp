@@ -5,4 +5,5 @@ export interface Collection {
   list: () => Promise<CollectionEntity[]>
   create: (data: CreateCollectionDto) => Promise<CollectionEntity>
   update: (id: string, data: UpdateCollectionDto) => Promise<CollectionEntity>
+  delete: (id: string) => Promise<boolean>
 }
