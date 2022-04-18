@@ -21,6 +21,7 @@
 
 <style lang="scss" >
   @import '../Styles/_colors.scss';
+  @import '../Styles/_sizing.scss';
   header {
     align-items: center;
     background: $black;
@@ -28,6 +29,6 @@
     display: flex;
     justify-content: space-between;
     padding: 0px 10px;
-    height: 80px;
+    height: $nav-height;
   }
 </style>

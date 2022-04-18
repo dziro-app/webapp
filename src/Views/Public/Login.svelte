@@ -1,5 +1,6 @@
 <script lang='ts' >
   import type { SessionRepo } from "../../Repository/Remote/session"
+  import Button from "../../components/Button.svelte"
 
   export let repository: SessionRepo
 
@@ -17,12 +18,16 @@
 
   <h1> Login </h1>
 
-  <button on:click={spotifyLogin} > Spotify </button>
+  <Button on:click={spotifyLogin} > Spotify </Button>
 
 </div>
 
 <style lang='scss' >
+  @import "../../Styles/_texts.scss";
   .Landing {
     padding: 1em;
+    h1 {
+      @include title;
+    }
   }
 </style>

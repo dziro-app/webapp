@@ -1,9 +1,9 @@
 <script lang="ts">
-  import { sessionStore } from "./Store/session"
+  import { sessionStore } from "../../Store/session"
   
-  import Header from './components/Header.svelte'
-  import Landing from './Views/Public/Main.svelte'
-  import Private from "./Views/Private/Main.svelte"
+  import Header from "../../components/Header.svelte"
+  import Landing from '../../Views/Public/Main.svelte'
+  import Private from "../../Views/Private/Main.svelte"
 
 
   let session = null

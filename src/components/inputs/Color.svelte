@@ -1,11 +1,12 @@
 <script type="ts">
   export let label: string = ""
   export let name: string
+  export let value
 
   import BaseInput from "./Base.svelte"
 
   let ref
-  let defaultValue = "#000000"
+  let defaultValue = value
 
   const changeEvent = (e) => {
     defaultValue = e.target.value
@@ -22,6 +23,7 @@
     <input
       id={name} name={name}
       bind:this={ref} 
+      bind:value={value}
       on:change={changeEvent}
       placeholder={label} type="color">
   </BaseInput>
@@ -35,6 +37,7 @@
       @include input;
       align-items: center;
       color: $gray;
+      cursor: pointer;
       display: flex;
       justify-content: space-between;
     }

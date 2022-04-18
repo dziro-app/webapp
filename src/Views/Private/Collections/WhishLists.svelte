@@ -1,20 +1,42 @@
 <script lang='ts'>
   import { onMount } from "svelte"
 
-  import type { Collection } from "../../../Repository/Base/collection"
+  import type { CreateCollectionDto } from "dtos/Collection"
+  import type { Collection } from "Entities/Collection"
+  import type { Collection as CollectionRepo } from "Repository/Base/collection"
 
   import Button from "../../../components/Button.svelte"
+  import CollectionDetail from "../../../components/CollectionDetail.svelte"
+  import CollectionButton from "../../../components/collection/button.svelte"
   import CreateModal from "../../../modals/NewCollection.svelte"
 
-  export let repository: Collection
+  export let repository: CollectionRepo
 
-  let collections = []
+  let collections: Collection[] = []
+  let selectedColection: Collection | null = null
+
   let showCreateModal = false
   const load = async () => {
     collections = await repository.list()
+    if ( collections.length > 0) {
+      selectedColection = collections[0]
+    }
   }
 
   const closeModal = () => { showCreateModal = false}
+
+  const createCollection = async (data: CreateCollectionDto) => {
+    try {
+      const created = await repository.create(data)
+      const newCollection = collections.splice(0)
+      newCollection.push(created)
+      collections = newCollection
+      closeModal()
+    }
+    catch (e) {
+      console.log(e)
+    }
+  }
 
   onMount(() => {
     load()
@@ -24,19 +46,27 @@
 
 <div id='WhishListsView' >
 
-  <CreateModal onClose={closeModal} show={showCreateModal} />
+  <CreateModal
+    onSubmit={createCollection}
+    onClose={closeModal} show={showCreateModal} />
 
   <div class='collectionList' >
     <h2> Colecciones </h2>
     <div class="buttonsList">
       {#each collections as collection}
-        {collection.name}
+        <CollectionButton on:click={() => { selectedColection = collection }} collection={collection} />
       {/each}
-      <Button form="outline" on:click={() => showCreateModal=true} >
-        Crear colección
-      </Button>
+      <div>
+        <Button form="outline" on:click={() => showCreateModal=true} >
+          Crear colección
+        </Button>
+      </div>
     </div>
   </div>
+
+  {#if selectedColection !== null}
+    <CollectionDetail collection={selectedColection}  />
+  {/if}
 
 </div>
 
@@ -47,6 +77,7 @@
   #WhishListsView {
     display: grid;
     grid-template-columns: 250px 1fr;
+    height: calc(100vh - 80px);
 
     .collectionList {
       box-sizing: border-box;
@@ -57,6 +88,9 @@
       }
       .buttonsList {
         text-align: center;
+        display: grid;
+        grid-row-gap: 16px;
+        margin: 16px 0;
       }
     }
   }
