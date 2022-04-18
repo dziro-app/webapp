@@ -2,7 +2,7 @@
   import { onMount } from "svelte"
 
   import type { CreateCollectionDto } from "dtos/Collection"
-  import type { Collection } from "Entities/Collection"
+  import type { CreateItemDto } from "dtos/Item"
   import type { Collection as CollectionRepo } from "Repository/Base/collection"
 
   import Button from "dziro-components/src/Components/Button.svelte"
@@ -13,10 +13,11 @@
   import ItemModal from "../../modals/ItemExtended.svelte"
   import CollectionModal from "../../modals/Collection.svelte"
 
+  import { collectionStore } from "../../Store/Collection"
+
   export let repository: CollectionRepo
   export let isUserFree: boolean = true
 
-  let collections: Collection[] = []
   let selectedColection: number | null = null
   
   // Flags for modals
@@ -25,8 +26,8 @@
   let showAddItemModal = false
 
   const load = async () => {
-    collections = await repository.list()
-    if ( collections.length > 0) {
+    $collectionStore = await repository.list()
+    if ( $collectionStore.length > 0) {
       selectedColection = 0
     }
   }
@@ -34,9 +35,7 @@
   const createCollection = async (data: CreateCollectionDto) => {
     try {
       const created = await repository.create(data)
-      const newCollection = collections.slice(0)
-      newCollection.push(created)
-      collections = newCollection
+      collectionStore.addCollection(created)
       showCreateModal = false
     }
     catch (e) {
@@ -46,11 +45,9 @@
 
   const editCollection = async(data: CreateCollectionDto) => {
     try {
-      let current = collections[selectedColection]
+      let current = $collectionStore[selectedColection]
       const updated = await repository.update(current.id, data)
-      const updatedCollections = collections.slice(0)
-      updatedCollections[selectedColection] = updated
-      collections = updatedCollections
+      collectionStore.updateCollection(selectedColection, updated)
       showEditModal = false
     } catch (e) {
       console.log(e)
@@ -58,20 +55,21 @@
   }
 
   const deleteCollection = async () => {
-    const current = collections[selectedColection]
+    const current = $collectionStore[selectedColection]
 
     try {
       await repository.delete(current.id)
-      const newCollection = collections.slice(0)
-      const found = newCollection.findIndex(item => (item.id === current.id))
-      newCollection.splice(found, 1)
-      collections = newCollection
-      if ( collections.length > 0) {
+      collectionStore.deleteCollection(current.id)
+      if ( $collectionStore.length > 0) {
         selectedColection = 0
       }
     } catch (e) {
       console.log(e)
     }
+  }
+
+  const createItem = (data: CreateItemDto) => {
+    console.log(data)
   }
 
   const menuOptions = [{
@@ -101,14 +99,16 @@
     <CollectionModal
       submitText="GUARDAR"
       title="Editar colección"
-      defaultValues={collections[selectedColection]}
+      defaultValues={$collectionStore[selectedColection]}
       onSubmit={editCollection}
       onClose={() => { showEditModal = false }} />
   {/if}
 
   {#if showAddItemModal}
     {#if isUserFree}
-      <ItemModal onClose={() => { showAddItemModal = false }} />
+      <ItemModal
+        onSubmit={createItem}
+        onClose={() => { showAddItemModal = false }} />
     {/if}
   {/if}
 
@@ -116,7 +116,7 @@
   <div class='collectionList' >
     <h2> Colecciones </h2>
     <div class="buttonsList">
-      {#each collections as collection, i}
+      {#each $collectionStore as collection, i}
         <CollectionButton 
           name={collection.name} 
           color={collection.color}
@@ -133,9 +133,9 @@
 
   {#if selectedColection !== null}
     <CollectionDetail 
-      name={collections[selectedColection].name} 
-      color={collections[selectedColection].color}
-      emoji={collections[selectedColection].emoji}
+      name={$collectionStore[selectedColection].name} 
+      color={$collectionStore[selectedColection].color}
+      emoji={$collectionStore[selectedColection].emoji}
       options={menuOptions}
     >
       <CollectionAddItem on:click={()=>{ showAddItemModal = true }}  />
