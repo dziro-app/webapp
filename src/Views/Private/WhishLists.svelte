@@ -8,22 +8,28 @@
   import Button from "dziro-components/src/Components/Button.svelte"
   import CollectionDetail from "dziro-components/src/Components/CollectionDetail.svelte"
   import CollectionButton from "dziro-components/src/Components/CollectionButton.svelte"
-  import CreateModal from "../../modals/NewCollection.svelte"
+  import CollectionAddItem from "dziro-components/src/Components/CollectionAddItem.svelte"
+
+  import ItemModal from "../../modals/ItemExtended.svelte"
+  import CollectionModal from "../../modals/Collection.svelte"
 
   export let repository: CollectionRepo
+  export let isUserFree: boolean = true
 
   let collections: Collection[] = []
-  let selectedColection: Collection | null = null
+  let selectedColection: number | null = null
+  
+  // Flags for modals
   let showCreateModal = false
+  let showEditModal = false
+  let showAddItemModal = false
 
   const load = async () => {
     collections = await repository.list()
     if ( collections.length > 0) {
-      selectedColection = collections[0]
+      selectedColection = 0
     }
   }
-
-  const closeModal = () => { showCreateModal = false}
 
   const createCollection = async (data: CreateCollectionDto) => {
     try {
@@ -31,22 +37,37 @@
       const newCollection = collections.slice(0)
       newCollection.push(created)
       collections = newCollection
-      closeModal()
+      showCreateModal = false
     }
     catch (e) {
       console.log(e)
     }
   }
 
-  const deleteCollection = async () => {
+  const editCollection = async(data: CreateCollectionDto) => {
     try {
-      await repository.delete(selectedColection.id)
+      let current = collections[selectedColection]
+      const updated = await repository.update(current.id, data)
+      const updatedCollections = collections.slice(0)
+      updatedCollections[selectedColection] = updated
+      collections = updatedCollections
+      showEditModal = false
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+  const deleteCollection = async () => {
+    const current = collections[selectedColection]
+
+    try {
+      await repository.delete(current.id)
       const newCollection = collections.slice(0)
-      const found = newCollection.findIndex(item => (item.id === selectedColection.id))
+      const found = newCollection.findIndex(item => (item.id === current.id))
       newCollection.splice(found, 1)
       collections = newCollection
       if ( collections.length > 0) {
-        selectedColection = collections[0]
+        selectedColection = 0
       }
     } catch (e) {
       console.log(e)
@@ -55,12 +76,11 @@
 
   const menuOptions = [{
     'display': 'Editar', 
-    onClick: ()=>{ alert('Editar') }
+    onClick: ()=>{ showEditModal = true }
   }, {
     'display': 'Eliminar', 
     onClick: deleteCollection
   }]
-
 
   onMount(() => {
     load()
@@ -70,19 +90,38 @@
 
 <div id='WhishListsView' >
 
-  <CreateModal
-    onSubmit={createCollection}
-    onClose={closeModal} show={showCreateModal} />
+  {#if showCreateModal}
+    <CollectionModal
+      defaultValues={null}
+      onSubmit={createCollection}
+      onClose={() => { showCreateModal = false }} />
+  {/if}
+
+  {#if showEditModal}
+    <CollectionModal
+      submitText="GUARDAR"
+      title="Editar colección"
+      defaultValues={collections[selectedColection]}
+      onSubmit={editCollection}
+      onClose={() => { showEditModal = false }} />
+  {/if}
+
+  {#if showAddItemModal}
+    {#if isUserFree}
+      <ItemModal onClose={() => { showAddItemModal = false }} />
+    {/if}
+  {/if}
+
 
   <div class='collectionList' >
     <h2> Colecciones </h2>
     <div class="buttonsList">
-      {#each collections as collection}
+      {#each collections as collection, i}
         <CollectionButton 
           name={collection.name} 
           color={collection.color}
           emoji={collection.emoji}
-          on:click={() => { selectedColection = collection }} />
+          on:click={() => { selectedColection = i }} />
       {/each}
       <div>
         <Button form="outline" on:click={() => showCreateModal=true} >
@@ -94,11 +133,14 @@
 
   {#if selectedColection !== null}
     <CollectionDetail 
-      name={selectedColection.name} 
-      color={selectedColection.color}
-      emoji={selectedColection.emoji}
+      name={collections[selectedColection].name} 
+      color={collections[selectedColection].color}
+      emoji={collections[selectedColection].emoji}
       options={menuOptions}
-    />
+    >
+      <CollectionAddItem on:click={()=>{ showAddItemModal = true }}  />
+    </CollectionDetail>
+
   {/if}
 
 </div>

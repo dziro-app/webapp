@@ -4,16 +4,18 @@
   import type {CreateCollectionDto} from "../dtos/Collection"
   
   export let title: string = "Nueva colección"
+  export let submitText: string = "CREAR"
   export let onClose: () => void
   export let onSubmit: (data: CreateCollectionDto) => void
-  export let show : boolean = false
+  export let defaultValues: CreateCollectionDto | null
+
+  import BaseModal from "dziro-components/src/Components/ModalBase.svelte"
 
   import Button from "dziro-components/src/Components/Button.svelte"
   import TextInput from "dziro-components/src/Components/InputText.svelte"
   import EmojiInput from "dziro-components/src/Components/InputEmoji.svelte"
   import ColorInput from "dziro-components/src/Components/InputColor.svelte"
-
-  import BaseModal from "dziro-components/src/Components/ModalBase.svelte"
+  import Danger from "./Danger.svelte"
 
   const schema = yup.object().shape({
     name: yup.string().required("El nombre no puede ser vacío"),
@@ -22,9 +24,15 @@
   })
 
   let values: CreateCollectionDto = {
-    name: "Ropa",
-    emoji: "👕",
-    color: "#D8D00C"
+    name: "",
+    emoji: "",
+    color: ""
+  }
+
+  if (defaultValues) {
+    values.name = defaultValues.name
+    values.color = defaultValues.color
+    values.emoji = defaultValues.emoji
   }
 
   let errors = []
@@ -40,38 +48,29 @@
 
 </script>
 
-{#if show}
-  <BaseModal title={title} onClose={onClose} >
-    <div class="NewCollection">
-      <p>Agrega la información de la colección</p>
-      {#each errors as error}
-        <div class="errorMessage" > {error} </div>
-      {/each}
-      <form on:submit|preventDefault={validateForm} >
-        <TextInput label="Nombre" name="name" bind:value={values.name} />
-        <EmojiInput label="Emoji" name="emoji" bind:value={values.emoji} />
-        <ColorInput label="Color" name="color" bind:value={values.color} />
-        <div class="buttonWrapper">
-          <Button type="submit" >
-            CREAR
-          </Button>  
-        </div>
-      </form>
-    </div>
-  </BaseModal>
-{/if}
+
+<BaseModal title={title} onClose={onClose} >
+  <div class="NewCollection">
+    <p>Agrega la información de la colección</p>
+    <Danger errors={errors} />
+    <form autocomplete="off" on:submit|preventDefault={validateForm} >
+      <TextInput label="Nombre" name="name" bind:value={values.name} />
+      <EmojiInput label="Emoji" name="emoji" bind:value={values.emoji} />
+      <ColorInput label="Color" name="color" bind:value={values.color} />
+      <div class="buttonWrapper">
+        <Button type="submit" >
+          {submitText}
+        </Button>  
+      </div>
+    </form>
+  </div>
+</BaseModal>
+
 
 <style lang='scss'>
   @import "../../../components/src/Styles/_colors.scss";
   @import "../../../components/src/Styles/_texts.scss";
 
-  .errorMessage {
-    background: $error;
-    color: $white;
-    text-align: center;
-    padding: 0.5em;
-    margin: 1em 0;
-  }  
   p {
     @include subtitle;
     text-align: center;

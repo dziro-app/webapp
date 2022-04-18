@@ -1,7 +1,6 @@
-export type Item = {
-  id: string
+export type CreateItemDto = {
+  title: string
   image: string
   website: string
   price: number
-  createdAt: Date
 }

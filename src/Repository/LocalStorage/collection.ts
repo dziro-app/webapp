@@ -46,16 +46,30 @@ export class CollectionRepo implements Collection {
     return Promise.resolve(collection)
   }
   
-  update: (id: string, data: UpdateCollectionDto) => Promise<CollectionEntity>;
+  update = (id: string, data: UpdateCollectionDto): Promise<CollectionEntity> => {
+    const found = this.findIndex(id)
+    let updated:CollectionEntity = {
+      ...this.data[found],
+      ...data
+    }
+
+    this.data[found] = updated
+    this.save()
+    return Promise.resolve(updated)
+  }
   
   delete = (id: string): Promise<boolean> => {
+    const found = this.findIndex(id)
+    this.data.splice(found, 1)
+    this.save()
+    return Promise.resolve(true)
+   
+  }
+
+  findIndex = (id: string) => {
     const found = this.data.findIndex(item => (item.id == id))
-    if (found != -1) {
-      this.data.splice(found, 1)
-      this.save()
-      return Promise.resolve(true)
-    }
-    return Promise.reject("Not found")
+    if (found != -1) return found
+    throw new Error("Not found")
   }
 
 }
