@@ -23,7 +23,7 @@
 </div>
 
 <style lang='scss' >
-  @import "../../../../components/src/Styles/_texts.scss";
+  @import "../../../node_modules/dziro-components/src/Styles/_texts.scss";
   .Landing {
     padding: 1em;
     h1 {

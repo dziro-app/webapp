@@ -51,7 +51,7 @@
 
 <BaseModal title={title} onClose={onClose} >
   <div class="NewCollection">
-    <p>Agrega la información de la colección</p>
+    <p>Agrega la información de la colección.</p>
     <Danger errors={errors} />
     <form autocomplete="off" on:submit|preventDefault={validateForm} >
       <TextInput label="Nombre" name="name" bind:value={values.name} />
@@ -68,8 +68,8 @@
 
 
 <style lang='scss'>
-  @import "../../../components/src/Styles/_colors.scss";
-  @import "../../../components/src/Styles/_texts.scss";
+  @import "../../node_modules/dziro-components/src/Styles/_colors.scss";
+  @import "../../node_modules/dziro-components/src/Styles/_texts.scss";
 
   p {
     @include subtitle;

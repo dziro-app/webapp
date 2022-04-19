@@ -61,8 +61,8 @@
 
 
 <style lang='scss'>
-  @import "../../../components/src/Styles/_colors.scss";
-  @import "../../../components/src/Styles/_texts.scss";
+  @import "../../node_modules/dziro-components/src/Styles/_colors.scss";
+  @import "../../node_modules/dziro-components/src/Styles/_texts.scss";
   p {
     @include subtitle;
     text-align: center;
