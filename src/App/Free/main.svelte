@@ -13,10 +13,6 @@
   <WishList itemRepo={iRepo} collectionRepo={cRepo} />
 </main>
 
-<style>
-  :global(body, html) {
-    padding: 0;
-    margin: 0;
-  }
-
+<style global lang="scss">
+  @import "../../Styles/_gloabl.scss";
 </style>

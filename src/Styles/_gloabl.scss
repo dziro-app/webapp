@@ -1,0 +1,7 @@
+@import "../../node_modules/dziro-components/src/Styles/_scroll.scss";
+@include scrollBar;
+
+html, body {
+  margin: 0;
+  padding: 0;
+}

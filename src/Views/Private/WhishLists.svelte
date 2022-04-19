@@ -194,6 +194,7 @@
 
     .itemList {
       display: flex;
+      flex-wrap: wrap;
       grid-gap: sizing(2);
     }
   }
