@@ -8,10 +8,11 @@
   import Danger from "./Danger.svelte"
   import TextInput from "dziro-components/src/Components/InputText.svelte"
 
-  export let submitText: string = "CREAR"
   export let title: string = "Nuevo artículo"
+  export let submitText: string = "CREAR"
   export let onClose: () => void
   export let onSubmit: (data: CreateItemDto) => void
+  export let defaultValues: CreateItemDto | null = null
 
   const schema = yup.object().shape({
     title: yup.string().required("El título no puede ser vacío"),
@@ -26,6 +27,14 @@
     price: 0,
     website: ""
   }
+
+  if (defaultValues) {
+    values = { 
+      ...values,
+      ...defaultValues
+    }
+  }
+
   let errors = []
 
   const validateForm = async (e: Event) => {

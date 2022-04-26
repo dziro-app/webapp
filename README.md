@@ -47,8 +47,8 @@ $ npm run dev
 
 - [X] Marcado de comprado
 - [ ] Edición de artículos
-- [ ] Eliminación de artículos
-- [ ] No sabe si meter la imagen o la url
+- [X] Eliminación de artículos
+- [X] No sabe si meter la imagen o la url
 - [ ] Colores oscuros, se pierden títulos
 - [ ] Filtrado de artículos por comprado / pendiente
 - [ ] A lo mejor no sabe dónde editar

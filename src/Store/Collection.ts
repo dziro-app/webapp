@@ -38,7 +38,7 @@ function createCollection() {
       newCollection[found].items.push(item)
       return newCollection
     }),
-    toogleObtainedItem: (collectionIndex: number,  updated: Item) => update(collections => {
+    update: (collectionIndex: number,  updated: Item) => update(collections => {
       const newCollections = collections.slice(0)
       const collection = newCollections[collectionIndex]
       const found = collection.items.findIndex(item => item.id === updated.id)
