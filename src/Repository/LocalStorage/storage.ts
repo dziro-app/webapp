@@ -31,7 +31,7 @@ export default class LocalStorage {
     let itemIndex = -1
 
     const collectionIndex = collections.findIndex(collection => {
-      itemIndex = collection.items.findIndex(item => item.id = itemId)
+      itemIndex = collection.items.findIndex(item => item.id === itemId)
       return (itemIndex !== -1)
     })
 

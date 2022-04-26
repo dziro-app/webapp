@@ -3,6 +3,7 @@ export type Item = {
   title: string
   image: string
   website: string
+  obtained: boolean
   price: number
   createdAt: Date
 }

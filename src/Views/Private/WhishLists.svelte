@@ -85,6 +85,28 @@
     }
   }
 
+  const toggleBuyedItem = async(id: string) => {
+    let current = $collectionStore[selectedColection]
+    try {
+      const updatedItem = await itemRepo.toggleObtained(id)
+      collectionStore.toogleObtainedItem(selectedColection, updatedItem)
+    }
+    catch(e) {
+      console.log(e)
+    }
+  }
+
+  const deleteItem = async(id: string) => {
+    let current = $collectionStore[selectedColection]
+    try {
+      await itemRepo.delete(id)
+      collectionStore.deleteItem(current.id, id)
+    }
+    catch(e) {
+      console.log(e)
+    }
+  }
+
   const menuOptions = [{
     'display': 'Editar', 
     onClick: ()=>{ showEditModal = true }
@@ -153,11 +175,22 @@
     >
       <div class="itemList">
         {#each $collectionStore[selectedColection].items as item}
-        <CollectionItem 
-        image={item.image}
-        name={item.title}
-        price={item.price}
-        website={item.website}
+        <CollectionItem
+          options={[{
+            'display': 'Editar',
+            onClick: () => { }
+          }, {
+            'display': item.obtained ? 'Pendiente':'Comprado',
+            onClick: () => {toggleBuyedItem(item.id)}
+          }, {
+            'display': 'Eliminar',
+            onClick: () => {deleteItem(item.id)}
+          }]}
+          image={item.image}
+          name={item.title}
+          price={item.price}
+          obtained={item.obtained}
+          website={item.website}
         />
         {/each}
         <CollectionAddItem on:click={()=>{ showAddItemModal = true }}  />

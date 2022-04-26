@@ -36,3 +36,19 @@ Al correr el comando dev de npm podra ver los scopes en dos lugares distintos.
 ```
 $ npm run dev
 ```
+## PROD
+
+```
+"dziro-components": "gitlab:opensource13/dziro/components#2b7cb40cc6861194eae6cb491ab5a9a3b86f48b5",
+```
+
+## TODO
+
+
+- [ ] Marcado de comprado
+- [ ] Edición de artículos
+- [ ] Eliminación de artículos
+- [ ] No sabe si meter la imagen o la url
+- [ ] Colores oscuros, se pierden títulos
+- [ ] Filtrado de artículos por comprado / pendiente
+- [ ] A lo mejor no sabe dónde editar
