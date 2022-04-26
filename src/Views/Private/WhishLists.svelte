@@ -3,6 +3,7 @@
 
   import type { CreateCollectionDto } from "dtos/Collection"
   import type { CreateItemDto } from "dtos/Item"
+  import type { Item as ItemEntity } from "Entities/Item"
 
   import type { Collection as CollectionRepo } from "Repository/Base/collection"
   import type { Item as ItemRepo } from "Repository/Base/item"
@@ -15,6 +16,7 @@
 
   import ItemModal from "../../modals/ItemExtended.svelte"
   import CollectionModal from "../../modals/Collection.svelte"
+  import DeleteConfirmModal from "../../modals/DeleteConfirm.svelte"
 
   import { collectionStore } from "../../Store/Collection"
 
@@ -28,6 +30,8 @@
   let showCreateModal = false
   let showEditModal = false
   let showAddItemModal = false
+  let showDeleteColletionModal = false
+  let deleteAttemptModal: ItemEntity | null = null
 
   const load = async () => {
     $collectionStore = await collectionRepo.list()
@@ -67,6 +71,7 @@
       if ( $collectionStore.length > 0) {
         selectedColection = 0
       }
+      showDeleteColletionModal = false
     } catch (e) {
       console.log(e)
     }
@@ -96,11 +101,12 @@
     }
   }
 
-  const deleteItem = async(id: string) => {
+  const deleteItem = async(item: ItemEntity) => {
     let current = $collectionStore[selectedColection]
     try {
-      await itemRepo.delete(id)
-      collectionStore.deleteItem(current.id, id)
+      await itemRepo.delete(item.id)
+      collectionStore.deleteItem(current.id, item.id)
+      deleteAttemptModal = null
     }
     catch(e) {
       console.log(e)
@@ -112,7 +118,7 @@
     onClick: ()=>{ showEditModal = true }
   }, {
     'display': 'Eliminar', 
-    onClick: deleteCollection
+    onClick: () => { showDeleteColletionModal = true }
   }]
 
   onMount(() => {
@@ -145,6 +151,22 @@
         onSubmit={createItem}
         onClose={() => { showAddItemModal = false }} />
     {/if}
+  {/if}
+
+  {#if deleteAttemptModal !== null}
+    <DeleteConfirmModal
+      confirmText={`Vas a eliminar el artículo "${deleteAttemptModal.title}"`}
+      onClose={() => { deleteAttemptModal = null }}
+      onConfirm={() => { deleteItem(deleteAttemptModal)  }}
+    />
+  {/if}
+
+  {#if showDeleteColletionModal }
+    <DeleteConfirmModal
+      confirmText={`Vas a eliminar la colección "${$collectionStore[selectedColection].name}"`}
+      onClose={() => { showDeleteColletionModal = false }}
+      onConfirm={deleteCollection}
+    />
   {/if}
 
 
@@ -184,7 +206,7 @@
             onClick: () => {toggleBuyedItem(item.id)}
           }, {
             'display': 'Eliminar',
-            onClick: () => {deleteItem(item.id)}
+            onClick: () => { deleteAttemptModal = item }
           }]}
           image={item.image}
           name={item.title}

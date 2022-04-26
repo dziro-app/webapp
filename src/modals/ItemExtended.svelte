@@ -46,7 +46,7 @@
     <Danger errors={errors} />
   
     <TextInput label="Título" name="title" bind:value={values.title} />
-    <TextInput label="Imagen" name="image" bind:value={values.image} />
+    <TextInput label="Imagen (Url)" name="image" bind:value={values.image} />
     <TextInput label="Precio" name="price" bind:value={values.price} />
     <TextInput label="Sitio web" name="website" bind:value={values.website} />
     

@@ -39,13 +39,13 @@ $ npm run dev
 ## PROD
 
 ```
-"dziro-components": "gitlab:opensource13/dziro/components#2b7cb40cc6861194eae6cb491ab5a9a3b86f48b5",
+"dziro-components": "gitlab:opensource13/dziro/components#6a113af78cfb7e895a69b8b616c6191f3a9e7158",
 ```
 
 ## TODO
 
 
-- [ ] Marcado de comprado
+- [X] Marcado de comprado
 - [ ] Edición de artículos
 - [ ] Eliminación de artículos
 - [ ] No sabe si meter la imagen o la url
