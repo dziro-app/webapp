@@ -38,17 +38,25 @@ $ npm run dev
 ```
 ## PROD
 
+> Add this line to package.json
 ```
 "dziro-components": "gitlab:opensource13/dziro/components#6a113af78cfb7e895a69b8b616c6191f3a9e7158",
+```
+
+> Run vercel
+```bash
+$ vercel
 ```
 
 ## TODO
 
 
 - [X] Marcado de comprado
-- [ ] Edición de artículos
+- [X] Edición de artículos
 - [X] Eliminación de artículos
 - [X] No sabe si meter la imagen o la url
+- [X] Agregar elementos de una forma más fácil (Chrome extension)
+- [ ] Agregar elementos de una forma más fácil (Firefox extension)
 - [ ] Colores oscuros, se pierden títulos
 - [ ] Filtrado de artículos por comprado / pendiente
 - [ ] A lo mejor no sabe dónde editar

@@ -28,6 +28,11 @@
     website: ""
   }
 
+  let extCode: string = ""
+  let errors = []
+  let showCodeInput = false
+
+
   if (defaultValues) {
     values = { 
       ...values,
@@ -35,7 +40,16 @@
     }
   }
 
-  let errors = []
+  const validateCode = () => {
+    try {
+      let dataStr = window.atob(extCode)
+      values = JSON.parse(dataStr)
+      showCodeInput = false
+      errors = []
+    } catch(e) {
+      errors = ["Código inválido"]
+    }
+  }
 
   const validateForm = async (e: Event) => {
     try {
@@ -52,18 +66,33 @@
 
   <form autocomplete="off" on:submit|preventDefault={validateForm} >
     <p>Agrega la información del artículo</p>
+    <p class='lit'> 
+      <span>Para usar</span>
+      {#if showCodeInput}
+        <span> el formulario completo </span>
+      {:else}
+        <span> un código de la extensión </span>
+      {/if}
+      <span class="link" on:click={() => { showCodeInput = ! showCodeInput}} > haz click aquí </span>
+    </p>
     <Danger errors={errors} />
-  
+
+  {#if showCodeInput}
+    <TextInput label="Código de extensión" name="extensionCode" bind:value={extCode} />
+    <div class="buttonWrapper">
+      <Button type="button" on:click={validateCode} > Validar código </Button>  
+    </div>
+  {:else}
     <TextInput label="Título" name="title" bind:value={values.title} />
     <TextInput label="Imagen (Url)" name="image" bind:value={values.image} />
     <TextInput label="Precio" name="price" bind:value={values.price} />
     <TextInput label="Sitio web" name="website" bind:value={values.website} />
-    
     <div class="buttonWrapper">
       <Button type="submit" >
         {submitText}
       </Button>  
     </div>
+  {/if}
   </form>
 
 </BaseModal>
@@ -75,6 +104,18 @@
   p {
     @include subtitle;
     text-align: center;
+  }
+
+  .lit {
+    @include small-text;
+    margin: 0;
+
+    .link{
+      text-decoration: underline;
+      &:hover {
+        cursor: pointer;
+      } 
+    }
   }
   form {
     display: grid;
