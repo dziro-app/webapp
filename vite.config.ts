@@ -14,6 +14,7 @@ export default defineConfig({
       input: {
         main: PathResolve(__dirname, 'index.html'),
         free: PathResolve(__dirname, 'Free', 'index.html'),
+        pro: PathResolve(__dirname, 'Pro', 'index.html'),
       }
     }
   }
