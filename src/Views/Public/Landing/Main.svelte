@@ -1,12 +1,22 @@
 <script lang='ts' >
+  // Components
   import Emojis from "./Emojis.svelte"
   import Logo from "dziro-components/src/Components/Logo.svelte"
   import Button from "dziro-components/src/Components/Button.svelte"
   import CollectonButton from "dziro-components/src/Components/CollectionButton.svelte"
   import CollectionItem from "dziro-components/src/Components/CollectionItem.svelte"
   import Extensions from "./Extensions.svelte"
+  // Analytics
+  import { Analytics, EventTypes } from "../../../Repository/Base/analytics"
 
   import { randomNumber } from "./utils"
+
+  export let analyticsRepo: Analytics
+
+  const redirectToApp = (button: string) => {
+    analyticsRepo.logEvent(EventTypes.GoFreeApp, { button: button })
+    window.location.href = `${window.location.href}Free/`
+  }
 
 </script>
 
@@ -29,12 +39,10 @@
   <Emojis />
 
   <div class="logo">
-    <a href="./Free/" >
-      <p>
-        Usa la versión abierta, 100% gratuita, por siempre y para siempre.
-      </p>
-    </a>
-    <a href="./Free/" >
+    <p class="link"  on:click={() => redirectToApp('link-paragraph')} >
+      Usa la versión abierta, 100% gratuita, por siempre y para siempre.
+    </p>
+    <a href="./Free/" on:click|preventDefault|stopPropagation={ () => redirectToApp('logo') }>
       <Logo color="black" />
     </a>
   </div>
@@ -46,9 +54,7 @@
       frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
     </iframe>
     <div>
-      <a href="./Free/" >  
-        <Button> 👉 IR A LA APP</Button>
-      </a>
+      <Button on:click={() => redirectToApp('HandEmoji')} > <div class="emoji" > 👉 </div> IR A LA APP</Button>
     </div>
   </div>
 
@@ -107,7 +113,7 @@
       AGILIZA EL PROCESO CON LAS EXTENSIONES
     </h3>
     <div class="show">
-      <Extensions />
+      <Extensions analyticsRepo={analyticsRepo} />
     </div>
   </div>
 
@@ -171,9 +177,11 @@
 
     p {
       @include small-text;
-    }
-    a, a:visited {
-      color: $black;
+
+      &.link {
+        text-decoration: underline;
+        cursor: pointer;
+      }
     }
   }
 
@@ -184,6 +192,20 @@
     justify-content: space-evenly;
     grid-gap: sizing(4);
     margin: sizing(15) 0;
+
+    .emoji {
+      transition: all 0.4s;
+      display: inline-block;
+    }
+
+    &:hover {
+      :global(button) {
+        transform: scale(1.2);
+      }
+      .emoji {
+        transform: rotateZ(360deg);
+      }
+    }
   }
 
   .features {
@@ -263,6 +285,49 @@
         :global(a:last-child) {
           transform: rotateZ(20deg) translateX(-60%);
         }
+      }
+    }
+  }
+
+  #extensions {
+    :global(#Firefox) {
+      transition: all 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+      transform: scale(0.8) translate3d(56px, 50px, 0);
+      opacity: 0;
+    }
+
+    :global(#Chrome) {
+      transition: all 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+      transform: scale(0.8) translate3d(15px, 50px, 0);
+      opacity: 0;
+    }
+
+    :global(.arrow) {
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+      transition-delay: 0.2s;
+    }
+    
+    :global(#Arrow2) {
+      transform: rotateZ(5deg);
+    }
+    :global(#Arrow3) {
+      transform: rotateZ(-5deg);
+    }
+
+    &:hover {
+      :global(#Firefox) {
+        opacity: 1;
+        transform: scale(1) translate3d(0px, 0px, 0);
+      } 
+      :global(#Chrome) {
+        opacity: 1;
+        transform: scale(1) translate3d(0px, 0px, 0);
+      }
+
+      :global(.arrow) {
+        opacity: 1;
+        transform: rotateZ(0deg) !important;
       }
     }
   }

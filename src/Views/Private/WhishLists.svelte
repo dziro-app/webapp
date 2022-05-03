@@ -1,27 +1,32 @@
 <script lang='ts'>
   import { onMount } from "svelte"
 
+  // Entities & Dtos
   import type { CreateCollectionDto } from "dtos/Collection"
   import type { CreateItemDto } from "dtos/Item"
   import type { Item as ItemEntity } from "Entities/Item"
-
+  // Data Repositories
   import type { Collection as CollectionRepo } from "Repository/Base/collection"
   import type { Item as ItemRepo } from "Repository/Base/item"
-
+  // Components
   import Button from "dziro-components/src/Components/Button.svelte"
   import CollectionDetail from "dziro-components/src/Components/CollectionDetail.svelte"
   import CollectionButton from "dziro-components/src/Components/CollectionButton.svelte"
   import CollectionAddItem from "dziro-components/src/Components/CollectionAddItem.svelte"
   import CollectionItem from "dziro-components/src/Components/CollectionItem.svelte"
-
+  // Modals
   import ItemModal from "../../modals/ItemExtended.svelte"
   import CollectionModal from "../../modals/Collection.svelte"
   import DeleteConfirmModal from "../../modals/DeleteConfirm.svelte"
-
+  // Store
   import { collectionStore } from "../../Store/Collection"
+  // Analytics
+  import type { Analytics, UpsertItemData } from "Repository/Base/analytics"
+  import { EventTypes } from "../../Repository/Base/analytics"
 
-  export let collectionRepo: CollectionRepo
-  export let itemRepo: ItemRepo
+  export let collectionRepo: CollectionRepo // Repositorio de colecciones
+  export let itemRepo: ItemRepo // Repositorio de items
+  export let analyticsRepo: Analytics // Repositorio de analytics
   export let isUserFree: boolean = true
 
   let selectedColection: number | null = null
@@ -78,11 +83,16 @@
     }
   }
 
-  const createItem = async (data: CreateItemDto) => {
+  const createItem = async (data: CreateItemDto, useCode: boolean) => {
     let current = $collectionStore[selectedColection]
     
     try {
       const newItem = await itemRepo.create(current.id, data)
+      const aData: UpsertItemData = {
+        store: data.website,
+        useExtCode: useCode
+      }
+      analyticsRepo.logEvent(EventTypes.UpsertItem, aData)
       collectionStore.addItem(current.id, newItem)
       showAddItemModal = false  
     }
@@ -91,9 +101,14 @@
     }
   }
 
-  const updateItem = async(data: CreateItemDto) => {
+  const updateItem = async(data: CreateItemDto, useCode: boolean) => {
     try {
       const updated = await itemRepo.update(editAttemptItem.id, data)
+      const aData: UpsertItemData = {
+        store: data.website,
+        useExtCode: useCode
+      }
+      analyticsRepo.logEvent(EventTypes.UpsertItem, aData)
       collectionStore.update(selectedColection, updated)
       editAttemptItem = null
     }

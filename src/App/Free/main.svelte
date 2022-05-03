@@ -3,16 +3,21 @@
   import WishList from  "../../Views/Private/WhishLists.svelte"
   import {CollectionRepo} from "../../Repository/LocalStorage/collection"
   import {ItemRepo} from "../../Repository/LocalStorage/item"
-
+  import { FireBaseanalytics } from "../../Repository/Analytics"
+  
+  const aRepo = new FireBaseanalytics()
   const cRepo = new CollectionRepo()
   const iRepo = new ItemRepo()
 </script>
 
 <main>
   <Header />
-  <WishList itemRepo={iRepo} collectionRepo={cRepo} />
+  <WishList 
+    analyticsRepo={aRepo}
+    itemRepo={iRepo} 
+    collectionRepo={cRepo} />
 </main>
 
 <style global lang="scss">
-  @import "../../Styles/_gloabl.scss";
+  @import "../../Styles/_global.scss";
 </style>

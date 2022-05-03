@@ -11,7 +11,7 @@
   export let title: string = "Nuevo artículo"
   export let submitText: string = "CREAR"
   export let onClose: () => void
-  export let onSubmit: (data: CreateItemDto) => void
+  export let onSubmit: (data: CreateItemDto, useCode: boolean) => void
   export let defaultValues: CreateItemDto | null = null
 
   const schema = yup.object().shape({
@@ -54,7 +54,7 @@
   const validateForm = async (e: Event) => {
     try {
       await schema.validate(values, { abortEarly: false })
-      onSubmit(values)
+      onSubmit(values, extCode !== "")
     } catch (e) {
       errors = e.errors
     }
