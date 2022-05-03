@@ -3,7 +3,7 @@
 
   export let analyticsRepo: Analytics
 
-  const chromeUrl = "https://gitlab.com/opensource13/dziro/extensions/-/wikis/home"
+  const chromeUrl = "https://chrome.google.com/webstore/detail/dziro/bihflhpccdghdmaaidkpfmafljnkehbp"
   const firefoxUrl = "https://addons.mozilla.org/es/firefox/addon/dziro/"
 
   const onExtClicked = (type: string) => {
