@@ -27,6 +27,6 @@
 </main>
 
 <style global lang="scss">
-  @import "../../Styles/_gloabl.scss";
+  @import "../../Styles/_global.scss";
 </style>
 

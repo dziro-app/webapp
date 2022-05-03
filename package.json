@@ -11,6 +11,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.17.5",
+    "dziro-components": "gitlab:opensource13/dziro/components#b8a6b52b4b02f86fe4fa43dd4de6ac9bc3926d33",
     "@rollup/plugin-alias": "^3.1.9",
     "@rollup/plugin-node-resolve": "^13.2.1",
     "@sveltejs/vite-plugin-svelte": "^1.0.0-next.30",
