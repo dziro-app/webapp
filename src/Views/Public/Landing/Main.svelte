@@ -122,6 +122,12 @@
     <div class="author">
       Hecho con  💜 por <a href="https://www.linkedin.com/in/everitosan/" target="_blank" > evesan </a>
     </div>
+    <div class="donations">
+      <div>Donaciones</div>
+      <a href="https://www.patreon.com/everitosan" target="_blank">
+        <img src="/Patreon.png" alt="patreon" />
+      </a>
+    </div>
     <Logo />
   </footer>
 
@@ -345,6 +351,14 @@
       color: $white;
     }
 
+    .donations {
+      @include small-text;
+      text-align: center;
+      img {
+        width: 156px;
+      }
+    }
+
     .author {
       @include small-text;
     }
@@ -404,6 +418,12 @@
           transform: rotateZ(20deg) translateX(-60%);
         }
       }
+    }
+
+    footer {
+      flex-direction: column;
+      grid-row-gap: sizing(4);
+      height: auto;
     }
   }
 </style>
