@@ -40,7 +40,7 @@ $ npm run dev
 
 > Add this line to package.json
 ```
-"dziro-components": "gitlab:opensource13/dziro/components#b8a6b52b4b02f86fe4fa43dd4de6ac9bc3926d33",
+"dziro-components": "gitlab:opensource13/dziro/components#7f866bbf6c18913b4e6a303fd6ad1d63ef1c0545",
 ```
 
 > Run vercel
@@ -56,7 +56,7 @@ $ vercel
 - [X] Eliminación de artículos
 - [X] No sabe si meter la imagen o la url
 - [X] Agregar elementos de una forma más fácil (Chrome extension)
-- [ ] Agregar elementos de una forma más fácil (Firefox extension)
-- [ ] Colores oscuros, se pierden títulos
+- [X] Agregar elementos de una forma más fácil (Firefox extension)
+- [X] Colores oscuros, se pierden títulos
+- [X] A lo mejor no sabe dónde editar
 - [ ] Filtrado de artículos por comprado / pendiente
-- [ ] A lo mejor no sabe dónde editar
