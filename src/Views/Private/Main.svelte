@@ -1,23 +1,35 @@
 <script lang='ts' >
-  import { Router, Route } from "svelte-navigator";
+  import { Router, Route } from "svelte-navigator"
   import { sessionStore } from "../../Store/session"
   // Repositories
+  import { ApiUrl} from "../../Repository/Remote"
   import { CollectionRepo } from "../../Repository/Remote/collection"
+  import { ItemRepo } from "../../Repository/Remote/item"
+  import { FireBaseanalytics } from "../../Repository/Analytics"
+
 
   import WhishList from "./WhishLists.svelte"
 
-  let repo
+  let cRepo
+  let aRepo
+  let iRepo
 
   $:{
-    repo = new CollectionRepo("http://localhost:3001", $sessionStore.token)
+    cRepo = new CollectionRepo(ApiUrl, $sessionStore.token)
+    iRepo = new ItemRepo(ApiUrl, $sessionStore.token)
+    aRepo = new FireBaseanalytics()
   }
-
 
 </script>
 
 <Router>
+
   <Route path="/" >
-    <WhishList repository={repo} />
+    <WhishList 
+      analyticsRepo={aRepo}
+      itemRepo={iRepo} 
+      collectionRepo={cRepo}
+    />
   </Route>
 </Router>
 

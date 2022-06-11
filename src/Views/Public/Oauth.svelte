@@ -21,10 +21,10 @@
       
       const res = await repository.getToken(via, code)
       
-      sessionStore.setToken(res.token)
+      sessionStore.setToken(res.access_token)
       sessionStore.setUser(res.user)
       
-      navigate("/", {replace: true})
+      navigate("/", {replace: false})
 
     } catch(e) {
       console.log(e)

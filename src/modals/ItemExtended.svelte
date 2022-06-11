@@ -24,7 +24,7 @@
   let values: CreateItemDto = {
     title: "",
     image: "",
-    price: 0,
+    price: "",
     website: ""
   }
 

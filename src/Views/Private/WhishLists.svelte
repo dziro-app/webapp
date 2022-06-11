@@ -148,6 +148,16 @@
     onClick: () => { showDeleteColletionModal = true }
   }]
 
+  const convertItemToEdit = (item: ItemEntity) : CreateItemDto  => {
+    let aux : CreateItemDto = {
+      title: item.title,
+      image: item.image,
+      website: item.website,
+      price: `${item.price}`
+    }
+    return aux
+  }
+
   onMount(() => {
     load()
   })
@@ -182,7 +192,7 @@
       <ItemModal
         title="Editar artículo"
         submitText="ACTUALIZAR"
-        defaultValues={editAttemptItem}
+        defaultValues={convertItemToEdit(editAttemptItem)}
         onSubmit={updateItem}
         onClose={() => { editAttemptItem = null }} />
     {/if}

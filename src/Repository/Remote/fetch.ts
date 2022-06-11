@@ -28,8 +28,23 @@ export class Fetch {
 
   post(url: string, payload: Object) {
     return fetch(`${this.base}${url}`, {
-      method: 'post',
+      method: 'POST',
       body: JSON.stringify(payload),
+      headers: this.buildJsonHeader(),
+    }).then(res => res.json())
+  }
+
+  patch(url: string, payload: Object) {
+    return fetch(`${this.base}${url}`, {
+      method: 'PATCH',
+      body: JSON.stringify(payload),
+      headers: this.buildJsonHeader(),
+    }).then(res => res.json())
+  }
+
+  remove(url: string) {
+    return fetch(`${this.base}${url}`, {
+      method: 'DELETE',
       headers: this.buildJsonHeader(),
     }).then(res => res.json())
   }

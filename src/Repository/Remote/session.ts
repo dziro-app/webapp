@@ -16,5 +16,4 @@ export class SessionRepo extends Fetch implements Session {
     return this.post(`/auth/${via}/callback`, {code}) as Promise<Token>
   };
 
-
 }

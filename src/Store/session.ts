@@ -24,6 +24,7 @@ function createSession() {
     setUser: (user: User) => update(val => {
       const newUser = Object.assign({}, val)
       newUser.user = user
+      console.log(newUser)
       return newUser
     }),
 		reset: () => set(defaultState)
