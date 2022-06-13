@@ -26,7 +26,7 @@ export class Fetch {
     }).then(res => res.json())
   }
 
-  post(url: string, payload: Object) {
+  post(url: string, payload:Object = {}) {
     return fetch(`${this.base}${url}`, {
       method: 'POST',
       body: JSON.stringify(payload),
@@ -34,7 +34,7 @@ export class Fetch {
     }).then(res => res.json())
   }
 
-  patch(url: string, payload: Object) {
+  patch(url: string, payload: Object = {}) {
     return fetch(`${this.base}${url}`, {
       method: 'PATCH',
       body: JSON.stringify(payload),

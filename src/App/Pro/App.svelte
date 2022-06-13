@@ -4,7 +4,6 @@
   
   import Header from "dziro-components/src/Components/Header.svelte"
   import Login from "../../Views/Public/Login.svelte"
-  import Private from "../../Views/Private/Main.svelte"
 
   import {SessionRepo} from "../../Repository/Remote/session"
   import {ApiUrl} from "../../Repository/Remote"
@@ -23,7 +22,6 @@
 <main>
 
   {#if session === null}
-    <p>not logged</p>
     <Header />
     <Login repository={sessionRepo} />
   {:else}

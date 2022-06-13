@@ -15,7 +15,7 @@ export class ItemRepo extends Fetch implements Item {
   }
   
   toggleObtained = (itemId: string): Promise<ItemEntity> => {
-    return this.patch(`${API_PATH}/${itemId}`, { obtained: true })
+    return this.patch(`${API_PATH}/${itemId}/toggle_obtained`)
   }
 
   update = (id: string, data: UpdateItemDto) : Promise<ItemEntity> =>  {

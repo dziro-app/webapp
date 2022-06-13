@@ -12,6 +12,7 @@ export class ItemRepo extends LocalStorage implements Item {
     const collections = this.read()
     const newItem: ItemEntity = {
       ...data,
+      price: parseInt(data.price, 10),
       obtained: false,
       id:  UUID.create().toString(),
       createdAt: new Date()
@@ -28,7 +29,8 @@ export class ItemRepo extends LocalStorage implements Item {
     let item = collections[found.collectionIndex].items[found.itemIndex] as ItemEntity
     item = {
       ...item,
-      ...data
+      ...data,
+      price: parseInt(data.price, 10),
     }
 
     collections[found.collectionIndex].items[found.itemIndex] = item
