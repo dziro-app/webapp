@@ -31,6 +31,8 @@ export class Fetch {
       method: 'POST',
       body: JSON.stringify(payload),
       headers: this.buildJsonHeader(),
+      credentials: "include",
+      mode: "cors",
     }).then(res => res.json())
   }
 

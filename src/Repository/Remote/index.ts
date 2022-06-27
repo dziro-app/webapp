@@ -1,1 +1,3 @@
-export const ApiUrl = "http://192.168.100.70:8888/api"
+const env = import.meta.env
+
+export const ApiUrl = env.VITE_DZIRO_API

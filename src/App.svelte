@@ -17,10 +17,20 @@
   const fs = new FireBaseanalytics()
   const sessionRepo = new SessionRepo(ApiUrl)
   let session = null
+  let timmer = null
 
   $: {
     console.log($sessionStore.user)
     session = $sessionStore.user
+
+    if (session && timmer === null) { 
+      timmer =setInterval(async () => {
+        let res = await sessionRepo.refreshToken()
+        sessionStore.setToken(res.access_token)
+
+        console.log(res)
+      }, 1000 * 60 * 5)
+    }
   }
 
 </script>
