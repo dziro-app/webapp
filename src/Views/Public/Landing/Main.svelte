@@ -1,4 +1,5 @@
 <script lang='ts' >
+  import { navigate } from "svelte-navigator"
   // Components
   import Emojis from "./Emojis.svelte"
   import Logo from "dziro-components/src/Components/Logo.svelte"
@@ -42,7 +43,7 @@
     <p class="link"  on:click={() => redirectToApp('link-paragraph')} >
       Usa la versión abierta, 100% gratuita, por siempre y para siempre.
     </p>
-    <a href="./Free/" on:click|preventDefault|stopPropagation={ () => redirectToApp('logo') }>
+    <a href="./Free/" on:click|preventDefault|stopPropagation={ () => window.location.href = `${window.location.href}Pro/` }>
       <Logo color="black" />
     </a>
   </div>

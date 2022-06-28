@@ -22,8 +22,7 @@
 
 </script>
 
-<Router>
-
+<Router basepath="/Pro">
   <Route path="/" >
     <WhishList 
       analyticsRepo={aRepo}
