@@ -40,7 +40,7 @@ $ npm run dev
 
 > Add this line to package.json
 ```
-"dziro-components": "gitlab:opensource13/dziro/components#7f866bbf6c18913b4e6a303fd6ad1d63ef1c0545",
+"dziro-components": "gitlab:opensource13/dziro/components#43b5520186dbd045f43c28b36c10b4e9da40e39d"
 ```
 
 > Run vercel

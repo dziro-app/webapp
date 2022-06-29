@@ -3,12 +3,15 @@
   import Button from "dziro-components/src/Components/Button.svelte"
 
   export let repository: SessionRepo
+  let loading = false
 
   const spotifyLogin = async () => {
     try {
+      loading = true
       const res = await repository.login()
       window.location.href = res.redirect
     } catch(e) {
+      loading = false
       console.log(e)
     }
   }
@@ -18,7 +21,7 @@
 
   <h1> Login </h1>
 
-  <Button on:click={spotifyLogin} > Spotify </Button>
+  <Button loading={loading} on:click={spotifyLogin} > Spotify </Button>
 
 </div>
 

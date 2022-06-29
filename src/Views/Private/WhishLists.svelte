@@ -14,6 +14,7 @@
   import CollectionButton from "dziro-components/src/Components/CollectionButton.svelte"
   import CollectionAddItem from "dziro-components/src/Components/CollectionAddItem.svelte"
   import CollectionItem from "dziro-components/src/Components/CollectionItem.svelte"
+  import type {Option} from "dziro-components/src/Components/Menu.svelte"
   // Modals
   import ItemModal from "../../modals/ItemExtended.svelte"
   import CollectionModal from "../../modals/Collection.svelte"
@@ -140,11 +141,15 @@
     }
   }
 
-  const menuOptions = [{
-    'display': 'Editar', 
+  const menuOptions: Option[] = [{
+    'id': 0,
+    'icon': 'rename',
+    'text': 'Editar', 
     onClick: ()=>{ showEditModal = true }
   }, {
-    'display': 'Eliminar', 
+    'id': 1,
+    'icon': 'trash-empty',
+    'text': 'Eliminar', 
     onClick: () => { showDeleteColletionModal = true }
   }]
 
@@ -216,6 +221,11 @@
 
 
   <div class='collectionList' >
+    <div>
+      <Button color="#000" on:click={() => showCreateModal=true} >
+        Crear colección
+      </Button>
+    </div>
     <h2> Colecciones </h2>
     <div class="buttonsList">
       {#each $collectionStore as collection, i}
@@ -225,11 +235,7 @@
           emoji={collection.emoji}
           on:click={() => { selectedColection = i }} />
       {/each}
-      <div>
-        <Button form="outline" on:click={() => showCreateModal=true} >
-          Crear colección
-        </Button>
-      </div>
+    
     </div>
   </div>
 
@@ -260,7 +266,6 @@
           website={item.website}
         />
         {/each}
-        <CollectionAddItem on:click={()=>{ showAddItemModal = true }}  />
       </div>
     </CollectionDetail>
 
@@ -279,7 +284,8 @@
     height: calc(100vh - 80px);
     .collectionList {
       box-sizing: border-box;
-      padding: 0 16px;
+      padding: sizing(2);
+      box-shadow: inset -2px 0 8px #cacaca;
       h2 {
         @include title;
         color: $gray;

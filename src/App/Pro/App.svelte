@@ -49,6 +49,12 @@
     }
   }
 
+  const userOptions = [{
+    id: 0,
+    text: 'Salir',
+    onClick: () => { location.replace("/") }
+  }]
+
 </script>
 
 <main>
@@ -61,6 +67,7 @@
     <Header 
       username={session.username}
       picture={session.profile}
+      options={userOptions}
     />
     <Private />
 
