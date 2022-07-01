@@ -51,6 +51,12 @@
 
   const userOptions = [{
     id: 0,
+    icon: 'smile',
+    text: 'Perfil',
+    onClick: () => { }
+  }, {
+    id: 1,
+    icon: 'arrow-left-r',
     text: 'Salir',
     onClick: () => { location.replace("/") }
   }]

@@ -266,6 +266,7 @@
           website={item.website}
         />
         {/each}
+        <CollectionAddItem  on:click={() => { showAddItemModal = true }} />
       </div>
     </CollectionDetail>
 
